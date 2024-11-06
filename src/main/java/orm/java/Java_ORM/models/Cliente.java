@@ -1,5 +1,7 @@
 package orm.java.Java_ORM.models;
 
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,40 +11,16 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "clientes")
-public class Cliente {
+public class Cliente extends Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cliente_id")
     private long id;
-    private String nome;
-    @Column(unique = true)
-    private String cpf;
+    private IPagamentoStrategy metodoPagamento;
+
+    public Cliente () {}
     
-    public Cliente() {}
-
-    public Cliente(String nome, String cpf) {
-        this.nome = nome;
-        this.cpf = cpf;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    @Override
-    public String toString() {
-        return "----------------------" +         
-             "\nID: " + id + 
-             "\nCliente: " + nome + 
-             "\nCPF: " + cpf +
-             "\n----------------------";
+    public Cliente (String nome, String senha, String email, Date dtNasc, String cpf) {
+        super(nome, senha, email, dtNasc, cpf);
     }
 }
