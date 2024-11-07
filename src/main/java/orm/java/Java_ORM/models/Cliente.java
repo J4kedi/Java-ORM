@@ -1,26 +1,28 @@
 package orm.java.Java_ORM.models;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "clientes")
 public class Cliente extends Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cliente_id")
-    private long id;
-    private IPagamentoStrategy metodoPagamento;
+    @Column(length = 20)
+    private String metodoPagamento;
 
     public Cliente () {}
     
-    public Cliente (String nome, String senha, String email, Date dtNasc, String cpf) {
+    public Cliente (String nome, String senha, String email, LocalDate dtNasc, String cpf) {
         super(nome, senha, email, dtNasc, cpf);
+    }
+
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
     }
 }

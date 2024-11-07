@@ -1,6 +1,6 @@
 package orm.java.Java_ORM.models;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -10,30 +10,37 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "usuarios")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usuario_id")
     private long id;
+    @Column(length = 60, nullable = false)
     private String nome;
+    @Column(length = 50)
     private String senha;
+    @Column(length = 50)
     private String email;
-    private Date dtNasc;
+    @Temporal(TemporalType.DATE)
+    private LocalDate dtNasc;
     private boolean isLogin;
-    @Column(unique = true)
+    @Column(length = 20, unique = true)
     private String cpf;
     
-    @OneToMany(mappedBy = "Endereco", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Endereco> enderecos;    
     
     public Usuario() {}
 
-    public Usuario(String nome, String senha, String email, Date dtNasc, String cpf) {
+    public Usuario(String nome, String senha, String email, LocalDate dtNasc, String cpf) {
         this.nome = nome;
         this.senha = senha;
         this.email = email;
@@ -69,7 +76,7 @@ public abstract class Usuario {
         return email;
     }
 
-    public Date getDtNasc() {
+    public LocalDate getDtNasc() {
         return dtNasc;
     }
 

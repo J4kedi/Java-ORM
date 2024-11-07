@@ -1,5 +1,8 @@
 package orm.java.Java_ORM;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Scanner;
 
 import orm.java.Java_ORM.models.Cliente;
@@ -8,6 +11,8 @@ import orm.java.Java_ORM.repository.ClienteRepository;
 public class Principal {
     private Scanner input = new Scanner(System.in);    
     private ClienteRepository repositorio;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+
 
     public Principal(ClienteRepository repositorio) {
         this.repositorio = repositorio;
@@ -18,14 +23,15 @@ public class Principal {
         
         while(op != 0) {
             var menu = """
-                    *** MENU ***
+                    *********** MENU ***********
+
                     1. Cadastrar cliente
                     2. Listar todos os clientes
                     3. Excluir Cliente 
                     4.   
-                    ------------
+                    ----------------------------
                     0. Sair      
-                    ************
+                    ****************************
                     """;
     
             System.out.println(menu);       
@@ -55,6 +61,12 @@ public class Principal {
     public void cadastrarCliente() {
         System.out.print("Digite o nome do cliente: ");
         var nome = input.nextLine();
+        System.out.print("Digite o email do cliente: ");
+        var email = input.nextLine();
+        System.out.print("Digite a senha do cliente: ");
+        var senha = input.nextLine();
+        System.out.print("Digite a data de nascimento do cliente: ");
+        LocalDate dtNasc = LocalDate.parse(input.nextLine(), formatter);
         System.out.print("Digite o cpf do cliente: ");
         var cpf = input.nextLine();
 
@@ -63,7 +75,7 @@ public class Principal {
             return;
         }
 
-        Cliente cliente = new Cliente(nome, cpf);
+        Cliente cliente = new Cliente(nome, senha, email, dtNasc, cpf);
         repositorio.save(cliente);
 
         System.out.println(cliente + "\nCadastrado com sucesso!");
