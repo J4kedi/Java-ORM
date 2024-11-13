@@ -6,11 +6,14 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import orm.java.Java_ORM.models.Cliente;
+import orm.java.Java_ORM.models.Produto;
 import orm.java.Java_ORM.repository.ClienteRepository;
+import orm.java.Java_ORM.repository.ProdutoRepository;
 
 public class Principal {
     private Scanner input = new Scanner(System.in);    
     private ClienteRepository repositorio;
+    private ProdutoRepository repositoryProduto;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
 
 
@@ -28,7 +31,7 @@ public class Principal {
                     1. Cadastrar cliente
                     2. Listar todos os clientes
                     3. Excluir Cliente 
-                    4.   
+                    4. Adicionar Produto
                     ----------------------------
                     0. Sair      
                     ****************************
@@ -50,12 +53,18 @@ public class Principal {
                 case 3:
                     apagarCliente();
                     break;
+                case 4:
+                    adicionarProduto();
+                    break;
+                case 0:
+                    continue;
                 default:
                     System.out.println("Opção inválida");
             }
         }
 
-        System.out.println("Saindo...");
+        System.out.println("\nSaindo...");
+        System.out.println("\nProgama Finalizado!!\n");
     }
 
     public void cadastrarCliente() {
@@ -104,5 +113,19 @@ public class Principal {
             return false;
         }
         return true;
+    }
+
+    public void adicionarProduto() {
+        System.out.println("Digite o nome do produto: ");
+        String nome = input.nextLine();
+        System.out.println("Digite a quantidade do produto: ");
+        int quantidade = input.nextInt();
+        input.nextLine();
+        System.out.println("Digite o valor do produto: ");
+        double valor = input.nextDouble();
+        input.nextLine();
+
+        Produto p = new Produto(nome, quantidade, valor);
+        repositoryProduto.save(p);
     }
 }

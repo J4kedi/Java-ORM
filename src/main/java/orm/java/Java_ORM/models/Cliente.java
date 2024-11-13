@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -11,6 +12,8 @@ import jakarta.persistence.Table;
 public class Cliente extends Usuario {
     @Column(length = 20)
     private String metodoPagamento;
+    @OneToOne
+    private Pedido pedido;
 
     public Cliente () {}
     
